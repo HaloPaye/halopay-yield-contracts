@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  rust:
+    name: Rust Checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          target: wasm32-unknown-unknown
+          override: true
+      - name: Install Soroban CLI
+        run: cargo install --locked soroban-cli
+      - name: Build Soroban Contract
+        run: soroban contract build
+      - name: Run Cargo Test
+        run: cargo test
+        working-directory: contracts
+
+  python:
+    name: Python Checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: Install requirements
+        run: |
+          pip install -r agent/requirements.txt
+          pip install pytest black flake8 mypy
+      - name: Format Check (Black)
+        run: black --check agent/src/
+      - name: Lint (Flake8)
+        run: flake8 agent/src/
+      - name: Type Check (Mypy)
+        run: mypy agent/src/
+      - name: Run Pytest
+        run: pytest agent/
