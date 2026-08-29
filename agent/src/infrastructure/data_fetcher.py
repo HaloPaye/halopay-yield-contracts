@@ -1,5 +1,5 @@
 import requests
-from src.logger import log_event
+from src.config.logger import log_event
 
 HORIZON_URL = "https://horizon-testnet.stellar.org"
 

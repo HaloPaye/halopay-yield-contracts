@@ -1,7 +1,7 @@
 import os
 from stellar_sdk import Server, Keypair, Network, TransactionBuilder
 from stellar_sdk import scval
-from src.logger import log_event
+from src.config.logger import log_event
 
 def submit_allocation(mode: str, pool_id: str, amount: int):
     if mode != "live":
