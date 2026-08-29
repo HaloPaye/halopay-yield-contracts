@@ -1,12 +1,16 @@
 #![no_std]
 
-mod admin;
-pub mod errors;
-mod events;
-mod storage;
+#[path = "core/mod.rs"]
+pub mod core_domain;
+pub mod interfaces;
+pub mod state;
+pub mod security;
 
 use soroban_sdk::{contract, contractimpl, Address, Env};
-use errors::TreasuryError;
+use core_domain::errors::TreasuryError;
+use core_domain::events;
+use state::storage;
+use security::auth;
 
 #[contract]
 pub struct YieldTreasuryContract;
@@ -22,7 +26,7 @@ impl YieldTreasuryContract {
     }
 
     pub fn add_allowlist(env: Env, target: Address) -> Result<(), TreasuryError> {
-        admin::add_allowlist(&env, target)
+        auth::add_allowlist(&env, target)
     }
 
     pub fn deposit(env: Env, amount: u128) {
