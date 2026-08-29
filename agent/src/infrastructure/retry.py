@@ -7,4 +7,4 @@ def with_retry(func, retries=3):
             return func()
         except Exception:
             time.sleep(1)
-    raise Exception('Max retries exceeded')
+    raise Exception("Max retries exceeded")
