@@ -7,8 +7,8 @@ on:
   pull_request:
 
 jobs:
-  rust:
-    name: Rust Checks
+  rust-build:
+    name: Rust Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -23,12 +23,41 @@ jobs:
         run: cargo install --locked soroban-cli
       - name: Build Soroban Contract
         run: soroban contract build
+
+  rust-test:
+    name: Rust Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
       - name: Run Cargo Test
         run: cargo test
         working-directory: contracts
 
-  python:
-    name: Python Checks
+  python-lint:
+    name: Python Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: Install requirements
+        run: pip install black flake8
+      - name: Format Check (Black)
+        run: black --check src/ tests/
+        working-directory: agent
+      - name: Lint (Flake8)
+        run: flake8 src/ tests/
+        working-directory: agent
+
+  python-typecheck:
+    name: Python Type Check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -38,13 +67,25 @@ jobs:
           python-version: "3.11"
       - name: Install requirements
         run: |
-          pip install -r agent/requirements.txt
-          pip install pytest black flake8 mypy
-      - name: Format Check (Black)
-        run: black --check agent/src/
-      - name: Lint (Flake8)
-        run: flake8 agent/src/
+          pip install -r requirements.txt
+          pip install mypy
+        working-directory: agent
       - name: Type Check (Mypy)
-        run: mypy agent/src/
+        run: mypy src/ tests/
+        working-directory: agent
+
+  python-test:
+    name: Python Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: Install requirements
+        run: pip install -r requirements.txt pytest
+        working-directory: agent
       - name: Run Pytest
-        run: pytest agent/
+        run: pytest
+        working-directory: agent
