@@ -1,7 +1,7 @@
 #![cfg(test)]
 
-use soroban_sdk::Env;
 use halopay_treasury::{YieldTreasuryContract, YieldTreasuryContractClient};
+use soroban_sdk::Env;
 
 #[test]
 fn test_deposit_and_get_position() {
