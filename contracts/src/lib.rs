@@ -1,7 +1,7 @@
 #![no_std]
 
 mod admin;
-mod errors;
+pub mod errors;
 mod events;
 mod storage;
 
@@ -65,7 +65,7 @@ impl YieldTreasuryContract {
         Ok(())
     }
 
-    pub fn withdraw(env: Env, amount: u128, to: Address) -> Result<(), TreasuryError> {
+    pub fn withdraw(env: Env, amount: u128, _to: Address) -> Result<(), TreasuryError> {
         let admin = storage::get_admin(&env).ok_or(TreasuryError::NotAuthorized)?;
         admin.require_auth();
         

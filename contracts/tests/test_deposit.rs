@@ -1,6 +1,6 @@
 #![cfg(test)]
 
-use soroban_sdk::{testutils::Address as _, Address, Env};
+use soroban_sdk::Env;
 use halopay_treasury::{YieldTreasuryContract, YieldTreasuryContractClient};
 
 #[test]
