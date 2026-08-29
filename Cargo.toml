@@ -1,0 +1,8 @@
+[workspace]
+members = [
+    "contracts",
+]
+
+[patch.crates-io]
+ethnum = { path = "./ethnum-patch" }
+
