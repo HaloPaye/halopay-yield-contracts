@@ -1,4 +1,4 @@
-﻿<h1 align="center">HaloPay Yield Contracts & Agent</h1>
+<h1 align="center">HaloPay Yield Contracts & Agent</h1>
 
 <p align="center">
   The enterprise yield optimization repository for HaloPay — a hybrid on-chain and off-chain yield orchestrator built on Stellar and Soroban, maximizing USDC returns for merchants while maintaining strict liquidity thresholds.
@@ -22,14 +22,14 @@ This repository adopts a strict Domain-Driven Design (DDD), splitting logic acro
 
 ### Hybrid Flowchart
 
-\\\mermaid
+```mermaid
 graph TD
   Horizon[Horizon API] -->|Pool & Market Data| Agent[Python Yield Agent]
   Agent -->|Calculates Scores| Engine{Decision Engine}
   Engine -- "Allocation > Threshold" --> Submit[Submit Stellar Tx]
   Submit --> Vault[Soroban Vault Contract]
   Vault -->|Validates Agent Auth| State[(Update Ledger State)]
-\\\
+```
 
 ### How the Yield Orchestrator Works
 
@@ -42,8 +42,9 @@ graph TD
 
 ## Tech Stack
 
-- **Smart Contracts**: Rust, Soroban SDK
-- **Off-Chain Agent**: Python 3.11+, Pytest
+- **Language**: Rust, Python 3.11+
+- **Smart Contracts**: Soroban SDK
+- **Off-Chain Agent**: Pytest
 - **Data Ingestion**: Stellar Horizon API
 - **Testing & Simulation**: Soroban CLI, Make
 
@@ -51,9 +52,9 @@ graph TD
 
 ## Setup & Quick Start
 
-Check out the commands in the \Makefile\ for everyday operations:
+Check out the commands in the `Makefile` for everyday operations:
 
-\\\ash
+```bash
 # Clone the repository
 git clone https://github.com/HaloPaye/halopay-yield-contracts.git
 cd halopay-yield-contracts
@@ -72,7 +73,7 @@ make lint
 
 # Run the simulation loop
 make simulate
-\\\
+```
 
 ## Maintainers & Contact
 
