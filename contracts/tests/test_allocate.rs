@@ -1,8 +1,7 @@
 #![cfg(test)]
 
-use soroban_sdk::{testutils::Address as _, Address, Env};
 use halopay_treasury::{YieldTreasuryContract, YieldTreasuryContractClient};
-
+use soroban_sdk::{testutils::Address as _, Address, Env};
 
 fn setup() -> (Env, YieldTreasuryContractClient<'static>, Address, Address) {
     let env = Env::default();
@@ -14,8 +13,6 @@ fn setup() -> (Env, YieldTreasuryContractClient<'static>, Address, Address) {
     client.init(&admin, &agent);
     (env, client, admin, agent)
 }
-
-
 
 #[test]
 fn test_allocate_success() {

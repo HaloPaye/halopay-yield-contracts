@@ -3,14 +3,14 @@
 #[path = "core/mod.rs"]
 pub mod core_domain;
 pub mod interfaces;
-pub mod state;
 pub mod security;
+pub mod state;
 
-use soroban_sdk::{contract, contractimpl, Address, Env};
 use core_domain::errors::TreasuryError;
 use core_domain::events;
-use state::storage;
 use security::auth;
+use soroban_sdk::{contract, contractimpl, Address, Env};
+use state::storage;
 
 #[contract]
 pub struct YieldTreasuryContract;
@@ -57,12 +57,12 @@ impl YieldTreasuryContract {
         if remaining < amount {
             return Err(TreasuryError::InsufficientBalance);
         }
-        
+
         if remaining - amount < 100 {
             return Err(TreasuryError::BreachesMinimumFloor);
         }
 
-        // Action: Invokes destination cross-contract to deposit amount. 
+        // Action: Invokes destination cross-contract to deposit amount.
         // For the sake of this mock hackathon implementation, we just update state and emit event.
         storage::set_total_allocated(&env, total_allocated + amount);
         events::emit_funds_allocated(&env, agent, destination, amount);
@@ -72,13 +72,16 @@ impl YieldTreasuryContract {
     pub fn withdraw(env: Env, amount: u128, _to: Address) -> Result<(), TreasuryError> {
         let admin = storage::get_admin(&env).ok_or(TreasuryError::NotAuthorized)?;
         admin.require_auth();
-        
+
         // Mock transfer for now
         events::emit_funds_withdrawn(&env, admin, amount);
         Ok(())
     }
 
     pub fn get_position(env: Env) -> (u128, u128) {
-        (storage::get_total_deposits(&env), storage::get_total_allocated(&env))
+        (
+            storage::get_total_deposits(&env),
+            storage::get_total_allocated(&env),
+        )
     }
 }
