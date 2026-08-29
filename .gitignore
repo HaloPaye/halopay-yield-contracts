@@ -1,9 +1,7 @@
 /contracts/target
 target/
-Cargo.lock
 __pycache__/
 *.pyc
 .env
 .pytest_cache/
-
 *prompt.md
