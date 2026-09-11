@@ -80,7 +80,7 @@ make simulate
 | Maintainer | Contact / Telegram | Role |
 | :--- | :--- | :--- |
 | HaloPay Team | [@HaloPayDev](https://t.me/HaloPayDev) | Core Protocol Engineering |
-| Lead Engineer | security@halopay.io | Security & Operations |
+
 
 ## Contributors
 
