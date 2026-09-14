@@ -5,10 +5,22 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/HaloPaye/halopay-yield-contracts/actions"><img alt="CI/CD" src="https://img.shields.io/badge/build-passing-brightgreen"></a>
-  <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg">
-  <img alt="Stellar Soroban" src="https://img.shields.io/badge/stellar--soroban-rust-orange">
+  <a href="https://stellar.org"><img alt="Stellar Ecosystem" src="https://img.shields.io/badge/Stellar-Ecosystem-000000?style=flat-square&logo=stellar&logoColor=white"></a>
+  <a href="https://soroban.stellar.org"><img alt="Soroban Smart Contracts" src="https://img.shields.io/badge/Soroban-Smart%20Contracts-7928ca?style=flat-square&logo=rust&logoColor=white"></a>
+  <a href="https://github.com/HaloPaye/halopay-yield-contracts/actions"><img alt="CI Status" src="https://img.shields.io/github/actions/workflow/status/HaloPaye/halopay-yield-contracts/ci.yml?branch=main&style=flat-square&label=CI"></a>
+  <a href="LICENSE"><img alt="License: Apache 2.0" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square"></a>
+  <img alt="Python 3.11+" src="https://img.shields.io/badge/Python-3.11%2B-blue?style=flat-square&logo=python">
 </p>
+
+---
+
+## 🌌 Stellar & Soroban Architecture Integration
+
+HaloPay Yield Contracts & Agent leverages the unique composability and deterministic gas economics of the Stellar network:
+
+* **Soroban Smart Contract Vaults:** Built in Rust utilizing the `soroban-sdk`, the on-chain vault manages merchant capital, enforces immutable safety caps (max 80% allocation, mandatory 20% liquid redemption reserve), and maintains reentrancy resistance.
+* **Horizon & Soroban RPC Ingestion:** The autonomous Python daemon ingests real-time order books, AMM liquidity depths, and trading fees across the Stellar Decentralized Exchange (SDEX) and Soroban AMM pools.
+* **Non-Custodial Merchant Yield:** Idle working capital accumulated by unbanked merchants via offline POS sales is programmatically deployed into yield-bearing Soroban strategies, protecting merchants from local currency inflation while maintaining instant off-ramp liquidity.
 
 ---
 
@@ -90,4 +102,4 @@ make simulate
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the Apache License, Version 2.0 - see the [LICENSE](LICENSE) file for details.
