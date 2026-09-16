@@ -1,5 +1,4 @@
 from decimal import Decimal
-from typing import Tuple
 
 
 class AmmCalculator:
@@ -14,7 +13,11 @@ class AmmCalculator:
         reserve_in: Decimal,
         reserve_out: Decimal,
     ) -> Decimal:
-        if amount_in <= Decimal("0") or reserve_in <= Decimal("0") or reserve_out <= Decimal("0"):
+        if (
+            amount_in <= Decimal("0")
+            or reserve_in <= Decimal("0")
+            or reserve_out <= Decimal("0")
+        ):
             return Decimal("0")
 
         amount_in_with_fee = amount_in * (Decimal("1") - self.fee_fraction)
