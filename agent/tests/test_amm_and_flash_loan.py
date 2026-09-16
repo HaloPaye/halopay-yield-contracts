@@ -1,8 +1,13 @@
+import os
+import sys
 from decimal import Decimal
-from agent.src.domain.amm_calculator import AmmCalculator
-from agent.src.infrastructure.horizon_stream import HorizonStreamWatcher
-from agent.src.domain.pool_adapter import PoolAdapter
-from agent.src.domain.flash_loan_detector import FlashLoanDetector
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+from src.domain.amm_calculator import AmmCalculator  # noqa: E402
+from src.infrastructure.horizon_stream import HorizonStreamWatcher  # noqa: E402
+from src.domain.pool_adapter import PoolAdapter  # noqa: E402
+from src.domain.flash_loan_detector import FlashLoanDetector  # noqa: E402
 
 
 def test_amm_calculator_get_amount_out():
@@ -13,7 +18,7 @@ def test_amm_calculator_get_amount_out():
 
     amount_out = calc.get_amount_out(amount_in, reserve_in, reserve_out)
     assert amount_out > Decimal("0")
-    assert amount_out < Decimal("200") # slightly less than 2x due to impact + fee
+    assert amount_out < Decimal("200")  # slightly less than 2x due to impact + fee
 
 
 def test_amm_calculator_price_impact():
@@ -23,7 +28,9 @@ def test_amm_calculator_price_impact():
 
 
 def test_horizon_stream_backoff():
-    watcher = HorizonStreamWatcher("https://horizon.stellar.org", initial_backoff_sec=1.0, max_backoff_sec=10.0)
+    watcher = HorizonStreamWatcher(
+        "https://horizon.stellar.org", initial_backoff_sec=1.0, max_backoff_sec=10.0
+    )
     assert not watcher.is_connected
 
     watcher.on_connect()
@@ -50,7 +57,9 @@ def test_pool_adapter_ranking():
 
 
 def test_flash_loan_detector():
-    detector = FlashLoanDetector(max_volume_ratio=Decimal("3.0"), max_price_deviation=Decimal("0.08"))
+    detector = FlashLoanDetector(
+        max_volume_ratio=Decimal("3.0"), max_price_deviation=Decimal("0.08")
+    )
 
     # Normal swap
     normal = detector.inspect_swap(
@@ -64,9 +73,9 @@ def test_flash_loan_detector():
     # Flash loan spike
     spike = detector.inspect_swap(
         historical_mean_volume=Decimal("1000"),
-        tx_volume=Decimal("15000"), # 15x
+        tx_volume=Decimal("15000"),  # 15x
         pre_price=Decimal("1.0"),
-        post_price=Decimal("1.25"), # 25% shift
+        post_price=Decimal("1.25"),  # 25% shift
     )
     assert spike["flagged"]
     assert "Flash loan anomaly detected" in spike["reason"]

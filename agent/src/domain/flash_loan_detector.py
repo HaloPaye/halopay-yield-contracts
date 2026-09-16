@@ -1,5 +1,5 @@
 from decimal import Decimal
-from typing import Dict, Any, Optional
+from typing import Dict, Any
 
 
 class FlashLoanDetector:

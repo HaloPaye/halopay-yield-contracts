@@ -1,5 +1,4 @@
-import time
-from typing import Optional, Callable, Any, Dict
+from typing import Optional, Any, Dict
 
 
 class HorizonStreamWatcher:
@@ -29,7 +28,9 @@ class HorizonStreamWatcher:
         self.is_connected = False
         self.retry_count += 1
         delay = self.current_backoff
-        self.current_backoff = min(self.max_backoff_sec, self.current_backoff * self.backoff_multiplier)
+        self.current_backoff = min(
+            self.max_backoff_sec, self.current_backoff * self.backoff_multiplier
+        )
         return delay
 
     def parse_event(self, raw_data: Dict[str, Any]) -> Optional[Dict[str, Any]]:
